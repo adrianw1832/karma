@@ -1,0 +1,9 @@
+<%= link_to 'Add a new post', new_post_path %>
+<% if @posts.any? %>
+  <% @posts.each do |post| %>
+    <h2> <%= post.title %> </h2>
+    <h3> <%= post.description %></h3>
+  <% end %>
+<% else %>
+  No posts have been added yet
+<% end %>
