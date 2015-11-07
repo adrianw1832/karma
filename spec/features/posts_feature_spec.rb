@@ -17,4 +17,19 @@ feature 'Posts feature' do
       expect(page).to have_content 'I need to go to the supermarket'
     end
   end
+
+  context 'creating posts' do
+    context 'user is logged in' do
+      scenario 'users can create a new post' do
+        visit root_path
+        click_link 'Add a new post'
+        fill_in 'Title', with: 'I need a lift'
+        fill_in 'Description', with: 'I need to go to the supermarket'
+        click_button 'Create Post'
+        expect(current_path).to eq posts_path
+        expect(page).to have_content 'I need a lift'
+        expect(page).to have_content 'I need to go to the supermarket'
+      end
+    end
+  end
 end
