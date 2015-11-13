@@ -17,7 +17,20 @@ feature 'Posts feature' do
     scenario 'should be able to see it on the page' do
       visit posts_path
       expect(page).to have_content 'I need a lift'
-      expect(page).to have_content 'I need to go to the supermarket'
+    end
+  end
+
+  context 'viewing posts' do
+    let!(:post) { create(:post) }
+
+    context 'user is logged in' do
+      scenario 'user can click and view the post' do
+        sign_in_as(user)
+        click_link 'I need a lift'
+        expect(current_path).to eq post_path(post)
+        expect(page).to have_content 'I need a lift'
+        expect(page).to have_content 'I need to go to the supermarket'
+      end
     end
   end
 
@@ -32,7 +45,6 @@ feature 'Posts feature' do
         click_button 'Create Post'
         expect(current_path).to eq posts_path
         expect(page).to have_content 'I need a lift'
-        expect(page).to have_content 'I need to go to the supermarket'
       end
     end
 
@@ -43,6 +55,26 @@ feature 'Posts feature' do
         expect(current_path).to eq new_user_session_path
         expect(page).to have_content 'Email'
         expect(page).to have_content 'Password'
+      end
+    end
+  end
+
+  context 'updating posts' do
+    let!(:post) { create(:post) }
+
+    context 'user is logged in' do
+      scenario 'the original user can edit the post' do
+        sign_in_as(user)
+        visit root_path
+        click_link 'I need a lift'
+        click_link 'Edit Post'
+        fill_in 'Title', with: 'I need two lifts'
+        fill_in 'Description', with: 'I need to go to two supermarkets'
+        click_button 'Update Post'
+        expect(current_path).to eq posts_path
+        expect(page).to have_content 'I need two lifts'
+        click_link 'I need two lifts'
+        expect(page).to have_content 'I need to go to two supermarkets'
       end
     end
   end
