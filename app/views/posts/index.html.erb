@@ -1,8 +1,9 @@
-<%= link_to 'Add a new post', new_post_path %>
+<h1 class="title">Karma</h1>
+<h3> <%= link_to 'Help me', new_post_path %> </h3>
 <% if @posts.any? %>
   <% @posts.each do |post| %>
     <%= link_to post.title, post_path(post) %>
   <% end %>
 <% else %>
-  No posts have been added yet
+  No help listed
 <% end %>

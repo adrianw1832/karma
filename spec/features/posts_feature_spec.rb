@@ -6,8 +6,8 @@ feature 'Posts feature' do
   context 'no posts have been created' do
     scenario 'should prompt the use to do add new posts' do
       visit posts_path
-      expect(page).to have_content 'No posts have been added yet'
-      expect(page).to have_link 'Add a new post'
+      expect(page).to have_content 'No help listed'
+      expect(page).to have_link 'Help me'
     end
   end
 
@@ -39,7 +39,7 @@ feature 'Posts feature' do
       scenario 'user can create a new post' do
         sign_in_as(user)
         visit root_path
-        click_link 'Add a new post'
+        click_link 'Help me'
         fill_in 'Title', with: 'I need a lift'
         fill_in 'Description', with: 'I need to go to the supermarket'
         click_button 'Create Post'
@@ -51,7 +51,7 @@ feature 'Posts feature' do
     context 'user is not logged in' do
       scenario 'user cannot create a new post and is redirected' do
         visit root_path
-        click_link 'Add a new post'
+        click_link 'Help me'
         expect(current_path).to eq new_user_session_path
         expect(page).to have_content 'Email'
         expect(page).to have_content 'Password'
